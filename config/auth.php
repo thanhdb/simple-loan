@@ -108,4 +108,6 @@ return [
 
     'password_timeout' => 10800,
 
+    'sanctum_token' => env('SANCTUM_TOKEN', 'demo-loan-api-token'),
+
 ];

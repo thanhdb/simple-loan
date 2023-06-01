@@ -16,7 +16,7 @@ class StatusSeeder extends Seeder
     {
         $statusArr = $this->getStatuses();
         foreach ($statusArr as $status) {
-            Status::UpdateorCreate([
+            Status::updateOrCreate([
                 'slug' => $status['slug'],
                 'name' => $status['name']
             ]);

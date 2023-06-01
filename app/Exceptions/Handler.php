@@ -8,6 +8,7 @@ use App\Http\Traits\ApiResponseTrait;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -66,6 +67,7 @@ class Handler extends ExceptionHandler
         return parent::render($request, $e);
     }
 
+
     /**
      * Handle API exception
      *
@@ -77,6 +79,11 @@ class Handler extends ExceptionHandler
     private function handleApiException($request, $exception)
     {
         switch ($exception) {
+            case $exception instanceof AuthenticationException:
+                $message = $exception->getMessage();
+                $statusCode = Response::HTTP_FORBIDDEN;
+                break;
+
             case $exception instanceof AuthorizationException:
                 $message = $exception->getMessage();
                 $statusCode = Response::HTTP_FORBIDDEN;

@@ -15,10 +15,15 @@ use App\Http\Controllers\API\AuthController;
 |
 */
 
-Route::prefix('v1/auth/')
-    ->controller(AuthController::class)
-    ->group(function () {
-        Route::middleware(['api'])->post('register', 'register')->name('register');
-        Route::middleware(['api'])->post('login', 'login')->name('login');
-        Route::middleware(['api', 'auth:sanctum'])->post('logout', 'logout')->name('logout');
+Route::prefix('v1/')->group(function () {
+
+    Route::prefix('auth/')->middleware(['api'])->group(function () {
+        Route::post('register', 'App\Http\Controllers\API\AuthController@register')->name('register');
+        Route::post('login', 'App\Http\Controllers\API\AuthController@login')->name('login');
+        Route::middleware(['auth:sanctum'])->post('logout', 'App\Http\Controllers\API\AuthController@logout')->name('logout');
     });
+
+    Route::prefix('loan/')->middleware(['api', 'auth:sanctum'])->group(function() {
+        Route::post('create', 'App\Http\Controllers\API\LoanController@create')->name('create');
+    });
+});

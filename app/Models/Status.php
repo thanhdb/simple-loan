@@ -40,4 +40,14 @@ class Status extends Model
     protected $hidden = [
         'id'
     ];
+
+    /**
+     * Get slug id by slug name
+     * @param string $slug
+     */
+    public static function getIdBySlug($slug)
+    {
+        $slug = self::where('slug', $slug)->first();
+        return $slug ? $slug->id : null;
+    }
 }

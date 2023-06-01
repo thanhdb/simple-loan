@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::UpdateorCreate([
+        $user = User::updateOrCreate([
             'uuid' => Str::orderedUuid(),
             'name' => 'Test Customer 1',
             'email' => 'testcusomer1@test.com',
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         ]);
         $user->assignRole('customer');
 
-        $user = User::UpdateorCreate([
+        $user = User::updateOrCreate([
             'uuid' => Str::orderedUuid(),
             'name' => 'Test Customer2',
             'email' => 'testcusomer1@g.com',
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
         ]);
         $user->assignRole('customer');
 
-        $user = User::UpdateorCreate([
+        $user = User::updateOrCreate([
             'uuid' => Str::orderedUuid(),
             'name' => 'Thanh Do',
             'email' => 'dobaothanh@@test.com',

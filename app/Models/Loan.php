@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Loan extends Model
 {
+    /**
+     * All the loans will be assumed to have a “weekly” repayment frequency.
+     */
+    const FREQUENCY = 'weekly';
+
     use HasFactory;
     /**
      * The table associated with the model.

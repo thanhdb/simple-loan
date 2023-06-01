@@ -83,7 +83,7 @@ class Handler extends ExceptionHandler
                 break;
 
             case $exception instanceof NotFoundHttpException:
-                $message = $exception->getMessage();
+                $message = $exception->getMessage() ?? "Resource not found";
                 $statusCode = Response::HTTP_NOT_FOUND;
                 break;
 

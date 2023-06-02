@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\API\Auth;
 
-use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
+use Tests\BaseApiTestCase;
 
-class AuthTest extends TestCase
+class AuthTest extends BaseApiTestCase
 {
     /**
      * Test user can register
@@ -74,11 +73,7 @@ class AuthTest extends TestCase
      */
     public function test_user_can_logout()
     {
-        Sanctum::actingAs(
-            \App\Models\User::factory()->create(),
-            ['*']
-        );
-
+        $this->fakeLoginUser();
         $response = $this->postJson(route('logout'));
         $response->assertStatus(200);
     }

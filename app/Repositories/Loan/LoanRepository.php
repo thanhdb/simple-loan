@@ -56,11 +56,21 @@ class LoanRepository implements LoanRepositoryInterface
         return $loanData;
     }
 
+    /**
+     * Get loan by uuid
+     * @param $uuid
+     * @return mixed
+     */
     public function getLoanByUuid($uuid)
     {
         return Loan::where('uuid', $uuid)->first();
     }
 
+    /**
+     * Approve a loan
+     * @param Loan $loan
+     * @return array
+     */
     public function approve(Loan $loan)
     {
         $loan->status_id = Status::getIdBySlug('approved');
@@ -72,6 +82,12 @@ class LoanRepository implements LoanRepositoryInterface
         ];
     }
 
+    /**
+     * Check loan status by slug
+     * @param Loan $loan
+     * @param $statusSlug
+     * @return bool
+     */
     public function checkStatus(Loan $loan, $statusSlug)
     {
         switch ($statusSlug) {
@@ -86,6 +102,11 @@ class LoanRepository implements LoanRepositoryInterface
         }
     }
 
+    /**
+     * Get loan string status
+     * @param Loan $loan
+     * @return null
+     */
     public function getStatus(Loan $loan)
     {
         $status = Status::getSlugById($loan->status_id)->first();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\Loan\ApproveRequest;
 use App\Http\Traits\ApiResponseTrait;
+use App\Models\Loan;
 use App\Models\User;
 use App\Repositories\Loan\LoanRepositoryInterface;
 use App\Http\Requests\Loan\CreateRequest;
@@ -45,6 +46,28 @@ class LoanController extends Controller
         return $this->successResponse($responseData, 'Loan created successfully');
     }
 
+    /**
+     * @param $uuid
+     * @return JsonResponse
+     */
+    public function view($uuid)
+    {
+        $loan = $this->loanRepository->getLoanByUuid($uuid);
+
+        if (!$loan) {
+            return $this->errorResponse('Loan not found', Response::HTTP_NOT_FOUND);
+        }
+
+        //only admin and loan owner can view the loan
+        $this->authorize('view', $loan);
+
+        $responseData = [
+            'loan' => $loan,
+            'scheduled_payments' => $loan->scheduledPayments,
+        ];
+
+        return $this->successResponse($responseData, 'Loan retrieved successfully');
+    }
 
     /**
      * Admin can approve a loan

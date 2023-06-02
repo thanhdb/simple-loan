@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
     public function run()
     {
         //Flush cache before seeding
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
         //Create permissions for loan
         Permission::create(['name' => 'view_loan_list']);

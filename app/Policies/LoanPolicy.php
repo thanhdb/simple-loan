@@ -24,6 +24,18 @@ class LoanPolicy
     }
 
     /**
+     * Determine whether the user can view any models.
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function viewAll(User $user)
+    {
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view the model.
      * Only the user who owns the loan can view it
      * @param  \App\Models\User  $user

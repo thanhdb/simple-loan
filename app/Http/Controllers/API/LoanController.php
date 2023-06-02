@@ -77,6 +77,17 @@ class LoanController extends Controller
     }
 
     /**
+     * View all loans for admin
+     * @return JsonResponse
+     */
+    public function viewAll()
+    {
+        $this->authorize('viewAll', Loan::class);
+        $loans = $this->loanRepository->getAllLoans();
+        return $this->successResponse($loans, 'Loans retrieved successfully');
+    }
+
+    /**
      * Admin can approve a loan
      * @param ApproveRequest $request
      * @return JsonResponse

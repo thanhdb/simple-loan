@@ -13,6 +13,12 @@ interface LoanRepositoryInterface
     public function getLoans();
 
     /**
+     * Get all loans for admin
+     * @return mixed
+     */
+    public function getAllLoans();
+
+    /**
      * Create new loan
      * @param $requestData
      * @return mixed

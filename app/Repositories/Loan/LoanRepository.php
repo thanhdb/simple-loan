@@ -18,6 +18,16 @@ class LoanRepository implements LoanRepositoryInterface
     {
         return Loan::with('user', 'scheduledPayments')->where('user_id', Auth::id())->get();
     }
+
+    /**
+     * Get all loans for admin
+     * @return mixed
+     */
+    public function getAllLoans()
+    {
+        return Loan::with('user', 'scheduledPayments')->paginate();
+    }
+
     /**
      * Create new loan and scheduled payments for it
      * @param $requestData

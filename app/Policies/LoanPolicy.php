@@ -30,9 +30,7 @@ class LoanPolicy
      */
     public function viewAll(User $user)
     {
-        if ($user->hasRole('admin')) {
-            return true;
-        }
+        return $user->hasRole('admin');
     }
 
     /**
@@ -43,6 +41,16 @@ class LoanPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, Loan $loan)
+    {
+        return $user->id === $loan->user_id;
+    }
+
+    /**
+     * Determine whether the user can pay the loan.
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function payment(User $user, Loan $loan)
     {
         return $user->id === $loan->user_id;
     }

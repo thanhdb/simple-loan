@@ -101,6 +101,49 @@ class LoanRepository implements LoanRepositoryInterface
     }
 
     /**
+     * Payment for loan
+     * @param Loan $loan
+     * @param $requestData
+     * @return array
+     */
+    public function payment(Loan $loan, $requestData)
+    {
+        //check amount greater than or equal to scheduled payment amount
+        $scheduledPayment = $loan->scheduledPayments()
+            ->where('uuid', $requestData['scheduled_payment_uuid'])
+            ->where('status_id', Status::getIdBySlug('pending'))
+            ->first();
+        if (!$scheduledPayment) {
+            return [
+                'error' => 'Scheduled payment not found or already paid.'
+            ];
+        }
+        if ($requestData['amount'] < $scheduledPayment->amount) {
+            return [
+                'error' => 'Amount must be greater than or equal to scheduled payment amount'
+            ];
+        } else {
+            $scheduledPayment->status_id = Status::getIdBySlug('paid');
+            $scheduledPayment->amount_paid = $requestData['amount'];
+            $scheduledPayment->save();
+
+            //if all scheduled payments are paid, change loan status to paid
+            $scheduledPayments = $loan->scheduledPayments()
+                ->where('status_id', Status::getIdBySlug('pending'))->get();
+            if ($scheduledPayments->count() == 0) {
+                $loan->status_id = Status::getIdBySlug('paid');
+                $loan->save();
+            }
+
+            return [
+                'loan' => $loan,
+                'scheduled_payment' => $scheduledPayment,
+                'error' => null
+            ];
+        }
+    }
+
+    /**
      * Check loan status by slug
      * @param Loan $loan
      * @param $statusSlug

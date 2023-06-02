@@ -33,6 +33,7 @@ Route::prefix('v1/')->group(function () {
         Route::post('create', 'create')->name('create-loan')->can('create_loan');
         Route::get('all', 'viewAll')->name('view-all-loan')->can('view_loan_list');
         Route::get('{uuid}', 'view')->name('view-loan')->can('view_loan');
+        Route::post('payment', 'payment')->name('repayment-loan')->can('repay_loan');
 
         Route::post('approve', 'approve')->name('approve-loan')->can('approve_loan');
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\Loan\ApproveRequest;
+use App\Http\Requests\Loan\PaymentRequest;
 use App\Http\Traits\ApiResponseTrait;
 use App\Models\Loan;
 use App\Models\User;
@@ -29,6 +30,10 @@ class LoanController extends Controller
         $this->loanRepository = $loanRepository;
     }
 
+    /**
+     * User get all their loans
+     * @return JsonResponse
+     */
     public function index()
     {
         $loans = $this->loanRepository->getLoans();
@@ -115,5 +120,38 @@ class LoanController extends Controller
         ];
 
         return $this->successResponse($responseData, 'Loan approved successfully');
+    }
+
+    /**
+     * User can make payment
+     * @param PaymentRequest $request
+     * @return JsonResponse
+     */
+    public function payment(PaymentRequest $request)
+    {
+        $requestData = $request->validated();
+
+        $loan = $this->loanRepository->getLoanByUuid($requestData['loan_uuid']);
+
+        $this->authorize('payment', $loan);
+
+        //check loan is approved
+        if ($this->loanRepository->checkStatus($loan, 'approved') != true) {
+            return $this->errorResponse('Loan is not approved', Response::HTTP_BAD_REQUEST);
+        }
+
+        //if loan is approved then make payment
+        $loanData = $this->loanRepository->payment($loan, $requestData);
+
+        if($loanData['error']) {
+            return $this->errorResponse($loanData['error'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $responseData = [
+            'loan' => $loanData['loan'],
+            'scheduled_payment' => $loanData['scheduled_payment'],
+        ];
+
+        return $this->successResponse($responseData, 'Loan payment made successfully');
     }
 }

@@ -33,6 +33,14 @@ interface LoanRepositoryInterface
     public function approve(Loan $loan);
 
     /**
+     * Payment for loan
+     * @param Loan $loan
+     * @param $requestData
+     * @return mixed
+     */
+    public function payment(Loan $loan, $requestData);
+
+    /**
      * Get loan by uuid
      * @param $uuid
      * @return mixed

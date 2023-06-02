@@ -1,64 +1,117 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<h1 align="center">Simple Loan Management API</h1>
+This is a demo for a simple loan management system.
+Currently the Application is built over Laravel Framework version 8.
 
-## About Laravel
+----------
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Getting started
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Clone the repository
 
-## Learning Laravel
+    git clone git@github.com:thanhdb/simple-loan.git
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Switch to the repo folder
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    cd simple-loan
 
-## Laravel Sponsors
+Install all the dependencies using composer
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    composer install
 
-### Premium Partners
+Copy the example env file and make the required configuration changes in the .env file
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    cp .env.example .env
 
-## Contributing
+Generate a new application key
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    php artisan key:generate
 
-## Code of Conduct
+Run the database migrations (**Set the database connection in .env before migrating**)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    php artisan migrate
 
-## Security Vulnerabilities
+Run the database seeders
+    
+    php artisan db:seed
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Start the local development server
 
-## License
+    php artisan serve
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+You can now access the server at http://127.0.0.1:8000
+
+**TL;DR command list**
+
+    git clone git@github.com:thanhdb/simple-loan.git
+    cd simple-loan
+    composer install
+    cp .env.example .env
+    php artisan key:generate 
+    
+**Make sure you set the correct database connection information before running the migrations**
+
+    php artisan migrate
+    php artisan db:seed
+    php artisan serve
+----------
+
+## Features
+-   Customer creates a loan
+-   Admin approves the loan
+-   Customer can only view self owned loan
+-   Customer can repay the loan only once Admin approves the loan
+-   Once customer pays all the scheduled payment the Loan is marked automatically marked as Paid
+
+## List All End Points Available
+Format of the all endpoints is `{{local.domain}}/api/v1/`
+-   Auth Routes
+    -   Register - `/api/v1/auth/register`
+    -   Login - `/api/v1/auth/login`
+    -   Logout - `/api/v1/auth/logout`
+
+-   Loan Routes
+    -   List loans - `/api/v1/loan/`
+    -   Create loan - `/api/v1/loan/create`
+    -   Admin view all loans - `/api/v1/loan/all`
+    -   View loan - `/api/v1/loan/<loan_uuid>`
+    -   Repayment loan - `/api/v1/loan/payment`
+    -   Approve loan - `/api/v1/loan/approve`
+
+
+##Testing
+Run all the test cases using the following command from the project root directory
+
+    php artisan test
+
+## Postman Collection
+You can find the postman collection in the postman document here 
+https://documenter.getpostman.com/view/526934/2s93sW7a5i#a43010ca-844a-4a03-b4b8-f8f30a991997
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/526934/2s93sW7a5i#a43010ca-844a-4a03-b4b8-f8f30a991997)
+
+## Info about package and technical used
+
+- Use Spatie Roles and Permissions package - https://spatie.be/docs/laravel-permission/v5/introduction for managing user permissions and roles
+    - This package allows manage user permissions and roles in a database.
+    - Clear documentation and easy to understand
+    
+- Apply Repository Pattern 
+    - Split the business logic and database logic into separate classes
+    - Easy to maintain and test
+    - Follow the SOLID principles 
+    - Can be replaced with other database or ORM
+
+- Use Laravel Sanctum for API authentication
+    - Easy to setup and use because it is built-in Laravel
+    - Can be replaced with other authentication package
+
+- Use Laravel Policy to manage the loan access
+    - Use to check the user's permission to perform an action
+
+- User Laravel Form Request to validate the request
+    - Easy to validate the request
+    - Can be replaced with other validation package

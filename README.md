@@ -82,7 +82,8 @@ Format of the all endpoints is `{{local.domain}}/api/v1/`
     -   Approve loan - `/api/v1/loan/approve`
 
 
-##Testing
+## Testing
+
 Run all the test cases using the following command from the project root directory
 
     php artisan test

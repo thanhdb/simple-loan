@@ -55,4 +55,40 @@ class LoanRepository implements LoanRepositoryInterface
 
         return $loanData;
     }
+
+    public function getLoanByUuid($uuid)
+    {
+        return Loan::where('uuid', $uuid)->first();
+    }
+
+    public function approve(Loan $loan)
+    {
+        $loan->status_id = Status::getIdBySlug('approved');
+        $loan->save();
+
+        return [
+            'loan' => $loan,
+            'scheduled_payments' => $loan->scheduledPayments
+        ];
+    }
+
+    public function checkStatus(Loan $loan, $statusSlug)
+    {
+        switch ($statusSlug) {
+            case 'pending':
+                return $loan->status_id == Status::getIdBySlug('pending');
+            case 'approved':
+                return $loan->status_id == Status::getIdBySlug('approved');
+            case 'paid':
+                return $loan->status_id == Status::getIdBySlug('paid');
+            default:
+                return false;
+        }
+    }
+
+    public function getStatus(Loan $loan)
+    {
+        $status = Status::getSlugById($loan->status_id)->first();
+        return $status ? $status->slug : null;
+    }
 }

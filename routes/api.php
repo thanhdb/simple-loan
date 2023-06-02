@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\LoanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +18,19 @@ use App\Http\Controllers\API\AuthController;
 
 Route::prefix('v1/')->group(function () {
 
-    Route::prefix('auth/')->middleware(['api'])->group(function () {
-        Route::post('register', 'App\Http\Controllers\API\AuthController@register')->name('register');
-        Route::post('login', 'App\Http\Controllers\API\AuthController@login')->name('login');
-        Route::middleware(['auth:sanctum'])->post('logout', 'App\Http\Controllers\API\AuthController@logout')->name('logout');
+    Route::prefix('auth/')
+        ->controller(AuthController::class)
+        ->middleware(['api'])->group(function () {
+        Route::post('register', 'register')->name('register');
+        Route::post('login', 'login')->name('login');
+        Route::middleware(['auth:sanctum'])->post('logout', 'logout')->name('logout');
     });
 
-    Route::prefix('loan/')->middleware(['api', 'auth:sanctum'])->group(function() {
-        Route::post('create', 'App\Http\Controllers\API\LoanController@create')->name('create');
+    Route::prefix('loan/')
+        ->controller(LoanController::class)
+        ->middleware(['api', 'auth:sanctum'])->group(function() {
+        Route::post('create', 'create')->name('create-loan')->can('create_loan');
+        Route::post('approve', 'approve')->name('approve-loan')->can('approve_loan');
     });
+
 });

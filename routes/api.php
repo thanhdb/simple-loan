@@ -29,6 +29,7 @@ Route::prefix('v1/')->group(function () {
     Route::prefix('loan/')
         ->controller(LoanController::class)
         ->middleware(['api', 'auth:sanctum'])->group(function() {
+        Route::get('/', 'index')->name('list-loan')->can('view_loan_list');
         Route::post('create', 'create')->name('create-loan')->can('create_loan');
         Route::get('{uuid}', 'view')->name('view-loan')->can('view_loan', 'uuid');
 

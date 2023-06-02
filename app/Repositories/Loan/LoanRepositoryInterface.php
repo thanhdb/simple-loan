@@ -7,6 +7,12 @@ use App\Models\Loan;
 interface LoanRepositoryInterface
 {
     /**
+     * Get all loans for user logged in
+     * @return mixed
+     */
+    public function getLoans();
+
+    /**
      * Create new loan
      * @param $requestData
      * @return mixed

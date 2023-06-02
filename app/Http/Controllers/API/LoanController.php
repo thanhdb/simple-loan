@@ -29,6 +29,12 @@ class LoanController extends Controller
         $this->loanRepository = $loanRepository;
     }
 
+    public function index()
+    {
+        $loans = $this->loanRepository->getLoans();
+        return $this->successResponse($loans, 'Loans retrieved successfully');
+    }
+
     /**
      * Create a new Loan
      * @param  CreateRequest $request
@@ -47,6 +53,7 @@ class LoanController extends Controller
     }
 
     /**
+     * View a loan
      * @param $uuid
      * @return JsonResponse
      */

@@ -11,6 +11,14 @@ use Carbon\Carbon;
 class LoanRepository implements LoanRepositoryInterface
 {
     /**
+     * Get all loans for user logged in
+     * @return mixed
+     */
+    public function getLoans()
+    {
+        return Loan::with('user', 'scheduledPayments')->where('user_id', Auth::id())->get();
+    }
+    /**
      * Create new loan and scheduled payments for it
      * @param $requestData
      * @return array
